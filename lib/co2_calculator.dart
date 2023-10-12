@@ -70,7 +70,7 @@ class CO2Calculator {
       first: fp.firstCW!,
     );
     return (fp.a! * distanceTotal * distanceTotal + fp.b! * distanceTotal + fp.c!) /
-        (fp.seatNumber! * fp.passengerLoadFactor!) * fp.invCf! * classWeight * (fp.emissionFactor! * fp.multiplier! + fp.preProduction!);
+        (fp.seatNumber! * fp.passengerLoadFactor!) * fp.invCf! * classWeight * (fp.emissionFactor! + fp.preProduction!);
   }
 
   static double correctedDistanceKm(double distanceKm) {
