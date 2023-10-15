@@ -41,36 +41,26 @@ class CO2Calculator {
     final longHaulParameters = FlightParameters.longHaulParams;
 
     return FlightParameters(
-        a: _interpolate(a: shortHaulParameters.a, b: longHaulParameters.a, value: normalizedDistance),
-        b: _interpolate(a: shortHaulParameters.b, b: longHaulParameters.b, value: normalizedDistance),
-        c: _interpolate(a: shortHaulParameters.c, b: longHaulParameters.c, value: normalizedDistance),
         seatNumber: _interpolate(a: shortHaulParameters.seatNumber, b: longHaulParameters.seatNumber, value: normalizedDistance),
         passengerLoadFactor: _interpolate(a: shortHaulParameters.passengerLoadFactor, b: longHaulParameters.passengerLoadFactor, value: normalizedDistance),
-        detourConstant: _interpolate(a: shortHaulParameters.detourConstant, b: longHaulParameters.detourConstant, value: normalizedDistance),
-        invCf:
-            _interpolate(a: shortHaulParameters.invCf, b: longHaulParameters.invCf, value: normalizedDistance),
-        economyCW: _interpolate(
-            a: shortHaulParameters.economyCW, b: longHaulParameters.economyCW, value: normalizedDistance),
-        businessCW: _interpolate(
-            a: shortHaulParameters.businessCW, b: longHaulParameters.businessCW, value: normalizedDistance),
-        firstCW:
-            _interpolate(a: shortHaulParameters.firstCW, b: longHaulParameters.firstCW, value: normalizedDistance),
-        emissionFactor: _interpolate(a: shortHaulParameters.emissionFactor, b: longHaulParameters.emissionFactor, value: normalizedDistance),
-        preProduction: _interpolate(a: shortHaulParameters.preProduction, b: longHaulParameters.preProduction, value: normalizedDistance),
-        multiplier: _interpolate(a: shortHaulParameters.multiplier, b: longHaulParameters.multiplier, value: normalizedDistance));
+        detourConstant: _interpolate(a: shortHaulParameters.detourConstant, b: longHaulParameters.detourConstant, value: normalizedDistance));
   }
 
   static double calculateCO2e(double distanceKm, FlightClass flightClass) {
     FlightParameters fp = flightParameters(distanceKm: distanceKm);
     double distanceTotal = distanceKm + fp.detourConstant!;
-    double classWeight = _flightClassWeight(
-      flightClass: flightClass,
-      economy: fp.economyCW!,
-      business: fp.businessCW!,
-      first: fp.firstCW!,
-    );
-    return (fp.a! * distanceTotal * distanceTotal + fp.b! * distanceTotal + fp.c!) /
-        (fp.seatNumber! * fp.passengerLoadFactor!) * fp.invCf! * classWeight * (fp.emissionFactor! + fp.preProduction!);
+    // double classWeight = _flightClassWeight(
+    //   flightClass: flightClass,
+    //   economy: fp.economyCW!,
+    //   business: fp.businessCW!,
+    //   first: fp.firstCW!,
+    // );
+    // REUSE CLASS WEIGHT IF FLIGHT LENGTH > 3000
+    double fuelKgPerKm = 3.5; // TO CHANGE WITH REAL VALUES
+    double seatNumber = fp.seatNumber!; // REAL VALUES
+    return 3.16 * distanceTotal * fuelKgPerKm / 1000 * 0.85 / (seatNumber * fp.passengerLoadFactor!);
+    // return (fp.a! * distanceTotal * distanceTotal + fp.b! * distanceTotal + fp.c!) /
+    //     (fp.seatNumber! * fp.passengerLoadFactor!) * fp.invCf! * classWeight * (fp.emissionFactor! + fp.preProduction!);
   }
 
   static double correctedDistanceKm(double distanceKm) {

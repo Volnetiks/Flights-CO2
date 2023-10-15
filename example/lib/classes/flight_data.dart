@@ -19,7 +19,7 @@ class FlightData {
 
   String get co2eFormmated {
     if(co2e != null) {
-      double tonnes = co2e! / 1000.0;
+      double tonnes = co2e!;
       final formatter = NumberFormat.decimalPattern();
       return '${formatter.format(tonnes)} t';
     }
