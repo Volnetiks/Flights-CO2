@@ -18,8 +18,7 @@ class FlightDetailsCard extends StatelessWidget {
 
   final Map<FlightClass, Widget> flightClassChildren = const <FlightClass, Widget>{
     FlightClass.economy: Text('Economy'),
-    FlightClass.business: Text('Business'),
-    FlightClass.first: Text('First'),
+    FlightClass.premium: Text('Premium')
   };
 
   final Map<FlightType, Widget> flightTypeChildren = const <FlightType, Widget>{
@@ -68,7 +67,7 @@ class FlightDetailsCard extends StatelessWidget {
             const SizedBox(height: 16),
             SegmentedControl<FlightClass>(
               header: const Text("Class", style: TextStyle(fontSize: 13.0, color: Colors.black54)),
-              value: flightDetails.flightClass != null ? flightDetails.flightClass! : FlightClass.first,
+              value: flightDetails.flightClass != null ? flightDetails.flightClass! : FlightClass.economy,
               children: flightClassChildren,
               onValueChanged: (flightClass) => flightDetailsBlock.updateWith(flightClass: flightClass)
             ),

@@ -1,3 +1,3 @@
 enum FlightClass {
-  economy, business, first
+  economy, premium
 }

@@ -1,10 +1,11 @@
 import 'dart:math';
+import 'package:vector_math/vector_math.dart';
 
 import 'location_coordinate_2d.dart';
 
 class DistanceCalculator {
 
-  static double distanceInMetersBetween(LocationCoordinate2D lhs, LocationCoordinate2D rhs) {
+  static double distanceInMetersBetweenOld(LocationCoordinate2D lhs, LocationCoordinate2D rhs) {
 
     double radPerDeg = pi / 180.0;  // PI / 180
     double rkm = 6371.0;// Earth radius in kilometers
@@ -24,7 +25,24 @@ class DistanceCalculator {
     return rm * c;
   }
 
+  static double distanceInMetersBetween(LocationCoordinate2D departure, LocationCoordinate2D arrival) {
+    double x1 = radians(departure.latitude);
+    double y1 = radians(departure.longitude);
+    double x2 = radians(arrival.latitude);
+    double y2 = radians(arrival.longitude);
+
+    double angle1 = acos(sin(x1) * sin(x2) + cos(x1) * cos(x2) * cos(y1 - y2));
+    angle1 = degrees(angle1);
+
+    double distance = angle1 * 60;
+    print(distance);
+
+    double distanceMeters = distance * 1.852;
+    
+    return distanceMeters;
+  }
+
   static double distanceInKmBetween(LocationCoordinate2D lhs, LocationCoordinate2D rhs) {
-    return distanceInMetersBetween(lhs, rhs) / 1000.0;
+    return distanceInMetersBetween(lhs, rhs);
   }
 }
