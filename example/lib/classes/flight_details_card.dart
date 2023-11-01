@@ -38,66 +38,107 @@ class FlightDetailsCardState extends State<FlightDetailsCard> {
 
   List<bool> selectedFlightType = [false, true];
 
+  List<String> messages = [
+    "Departure Airport",
+    "Arrival Airport ",
+    "Round Trip"
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
-          color: Colors.white.withOpacity(0.4)
+    return Column(
+      children: [
+        ClipRRect(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              color: Colors.white.withOpacity(0.4)
+            ),
+            width: double.infinity,
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text('${messages[0]} - ${messages[1]} (${messages[2]})')
+              // child: RichText(
+              //   text: TextSpan(
+              //     style: const TextStyle(
+              //       fontSize: 14.0,
+              //       color: Colors.black,
+              //     ),
+              //     children: messages
+              //   ),
+              // ),
+            ),
+          )
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(height: 16,),
-            AirportWidget(
-              iconData: Icons.flight_takeoff,
-              title: const Text("Departing From", style: TextStyle(fontSize: 13.0, color: Colors.black54)),
-              onPressed: () => selectDeparture(context),
-              airport: widget.flightDetails.departure,
+        const SizedBox(height: 16,),
+        ClipRRect(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              color: Colors.white.withOpacity(0.4)
             ),
-            const SizedBox(height: 16,),
-            AirportWidget(
-              iconData: Icons.flight_land,
-              title: const Text("Flying to", style: TextStyle(fontSize: 13.0, color: Colors.black54)),
-              airport: widget.flightDetails.arrival,
-              onPressed: () => selectArrival(context),
-            ),
-            const SizedBox(height: 16,),
-            ToggleButton(
-              selectedItems: selectedFlightType,
-              widgets: flightTypes,
-              onChange: (int index) {
-                setState(() {
-                  widget.flightDetailsBlock.updateWith(flightType: index == 0 ? FlightType.oneWay : FlightType.twoWays);
-                });
-              }
-            ),
-            const SizedBox(height: 16),
-            ToggleButton(
-              selectedItems: selectFlightClass,
-              widgets: flightClasses,
-              onChange: (int index) {
-                setState(() {
-                  widget.flightDetailsBlock.updateWith(flightClass: index == 0 ? FlightClass.economy : FlightClass.premium);
-                });
-              },
-            ),
-            const SizedBox(height: 16)
-          ]
-        )
-      )
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 16,),
+                AirportWidget(
+                  iconData: Icons.flight_takeoff,
+                  title: const Text("Departing From", style: TextStyle(fontSize: 13.0, color: Colors.black54)),
+                  onPressed: () => selectDeparture(context),
+                  airport: widget.flightDetails.departure,
+                ),
+                const SizedBox(height: 16,),
+                AirportWidget(
+                  iconData: Icons.flight_land,
+                  title: const Text("Flying to", style: TextStyle(fontSize: 13.0, color: Colors.black54)),
+                  airport: widget.flightDetails.arrival,
+                  onPressed: () => selectArrival(context),
+                ),
+                const SizedBox(height: 16,),
+                ToggleButton(
+                  selectedItems: selectedFlightType,
+                  widgets: flightTypes,
+                  onChange: (int index) {
+                    setState(() {
+                      widget.flightDetailsBlock.updateWith(flightType: index == 0 ? FlightType.oneWay : FlightType.twoWays);
+                      messages[3] = index == 0 ? "One Way" : "Round Trip";
+                    });
+                  }
+                ),
+                const SizedBox(height: 16),
+                ToggleButton(
+                  selectedItems: selectFlightClass,
+                  widgets: flightClasses,
+                  onChange: (int index) {
+                    setState(() {
+                      widget.flightDetailsBlock.updateWith(flightClass: index == 0 ? FlightClass.economy : FlightClass.premium);
+                    });
+                  },
+                ),
+                const SizedBox(height: 16)
+              ]
+            )
+          )
+        ),
+      ],
     );
   }
 
   void selectDeparture(BuildContext context) async {
     final departure = await showAirportSearch(context);
     widget.flightDetailsBlock.updateWith(departure: departure);
+    setState(() {
+      messages[0] = '${departure!.city} (${departure.iata})';
+    });
   }
   
   void selectArrival(BuildContext context) async {
     final arrival = await showAirportSearch(context);
     widget.flightDetailsBlock.updateWith(arrival: arrival);
+    setState(() {
+      messages[1] = '${arrival!.city} (${arrival.iata})';
+    });
   }
 
   Future<Airport?> showAirportSearch(BuildContext context) async {

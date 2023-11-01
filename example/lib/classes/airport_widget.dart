@@ -17,27 +17,27 @@ class AirportWidget extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(iconData),
-            SizedBox(width: 16.0,),
+            const SizedBox(width: 16.0,),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   title,
-                  SizedBox(height: 4.0),
+                  const SizedBox(height: 4.0),
                   AutoSizeText(
                     airportDisplayName,
-                    style: TextStyle(fontSize: 16.0),
+                    style: const TextStyle(fontSize: 16.0),
                     minFontSize: 13.0,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  Divider(height: 1.0, color: Colors.black87)
+                  const Divider(height: 1.0, color: Colors.black87)
                 ],
               )
             )
