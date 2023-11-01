@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flights_co2/airport.dart';
 import 'package:flutter/material.dart';
 
@@ -30,11 +29,10 @@ class AirportWidget extends StatelessWidget {
                 children: [
                   title,
                   const SizedBox(height: 4.0),
-                  AutoSizeText(
+                  Text(
                     airportDisplayName,
                     style: const TextStyle(fontSize: 16.0),
-                    minFontSize: 13.0,
-                    maxLines: 2,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const Divider(height: 1.0, color: Colors.black87)

@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flights_co2/airport_search.dart';
 import 'package:flights_co2_example/classes/flight.dart';
 import 'package:flights_co2_example/classes/flight_calculation_card.dart';
@@ -47,19 +46,6 @@ class FlightPage extends StatelessWidget {
                     ),
                   ),
                   FlightCalculationCard(flightData: snapshot.data!.data),
-                  Expanded(child: Container()),
-                  const AutoSizeText(
-                    'Flight CO2 calculation formula',
-                    minFontSize: 11.0,
-                    maxLines: 1,
-                    style: TextStyle(fontSize: 13.0, color: Colors.black54),
-                  ),
-                  const AutoSizeText(
-                    'Airport Data Set by openflights.org',
-                    minFontSize: 11.0,
-                    maxLines: 1,
-                    style: TextStyle(fontSize: 13.0, color: Colors.black54),
-                  )
                 ],
               )
             )

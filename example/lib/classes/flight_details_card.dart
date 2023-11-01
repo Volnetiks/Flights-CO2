@@ -9,8 +9,6 @@ import 'package:flights_co2_example/classes/flight_type.dart';
 import 'package:flights_co2_example/classes/toggle_button.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/hex_color.dart';
-
 class FlightDetailsCard extends StatefulWidget {
   const FlightDetailsCard({super.key, required this.flightDetails, required this.flightDetailsBlock, required this.airportSearch});
 
@@ -48,26 +46,18 @@ class FlightDetailsCardState extends State<FlightDetailsCard> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 25,),
         ClipRRect(
           child: Container(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
-              color: Colors.white.withOpacity(0.4)
+              color: Colors.white.withOpacity(0.3)
             ),
             width: double.infinity,
             alignment: Alignment.center,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text('${messages[0]} - ${messages[1]} (${messages[2]})')
-              // child: RichText(
-              //   text: TextSpan(
-              //     style: const TextStyle(
-              //       fontSize: 14.0,
-              //       color: Colors.black,
-              //     ),
-              //     children: messages
-              //   ),
-              // ),
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: Text('${messages[0]} - ${messages[1]} (${messages[2]})', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
             ),
           )
         ),
@@ -76,7 +66,7 @@ class FlightDetailsCardState extends State<FlightDetailsCard> {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(20)),
-              color: Colors.white.withOpacity(0.4)
+              color: Colors.white.withOpacity(0.3)
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -102,7 +92,7 @@ class FlightDetailsCardState extends State<FlightDetailsCard> {
                   onChange: (int index) {
                     setState(() {
                       widget.flightDetailsBlock.updateWith(flightType: index == 0 ? FlightType.oneWay : FlightType.twoWays);
-                      messages[3] = index == 0 ? "One Way" : "Round Trip";
+                      messages[2] = index == 0 ? "One Way" : "Round Trip";
                     });
                   }
                 ),
@@ -121,24 +111,29 @@ class FlightDetailsCardState extends State<FlightDetailsCard> {
             )
           )
         ),
+        const SizedBox(height: 25,)
       ],
     );
   }
 
   void selectDeparture(BuildContext context) async {
     final departure = await showAirportSearch(context);
-    widget.flightDetailsBlock.updateWith(departure: departure);
-    setState(() {
-      messages[0] = '${departure!.city} (${departure.iata})';
-    });
+    if (departure != null) {
+      widget.flightDetailsBlock.updateWith(departure: departure);
+      setState(() {
+        messages[0] = '${departure.city} (${departure.iata})';
+      });
+    }
   }
   
   void selectArrival(BuildContext context) async {
     final arrival = await showAirportSearch(context);
-    widget.flightDetailsBlock.updateWith(arrival: arrival);
-    setState(() {
-      messages[1] = '${arrival!.city} (${arrival.iata})';
-    });
+    if (arrival != null) {
+      widget.flightDetailsBlock.updateWith(arrival: arrival);
+      setState(() {
+        messages[1] = '${arrival.city} (${arrival.iata})';
+      });
+    }
   }
 
   Future<Airport?> showAirportSearch(BuildContext context) async {

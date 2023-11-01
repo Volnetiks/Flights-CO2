@@ -1,6 +1,5 @@
 import 'package:flights_co2/airport.dart';
 import 'package:flights_co2/airport_search.dart';
-import 'package:flights_co2/location_coordinate_2d.dart';
 import 'package:flights_co2_example/classes/airport_search_placeholder.dart';
 import 'package:flights_co2_example/classes/airport_search_result_tile.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,7 @@ class AirportSearchDelegate extends SearchDelegate<Airport?> {
         progress: transitionAnimation
       ),
       onPressed: () {
-        close(context, Airport(city: "", name: "", country: "", location: LocationCoordinate2D(latitude: 0, longitude: 0)));
+        close(context, null);
       }
     );
   }
