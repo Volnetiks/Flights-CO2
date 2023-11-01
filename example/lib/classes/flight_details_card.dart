@@ -7,7 +7,6 @@ import 'package:flights_co2_example/classes/animated_toggle.dart';
 import 'package:flights_co2_example/classes/flight_details.dart';
 import 'package:flights_co2_example/classes/flight_details_block.dart';
 import 'package:flights_co2_example/classes/flight_type.dart';
-import 'package:flights_co2_example/classes/toggle_button.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/hex_color.dart';

@@ -12,8 +12,8 @@ class FlightCalculationCard extends StatelessWidget {
     return Card(
       elevation: 4.0,
       child: Container(
-        color: Color(0x4089ED91),
-        padding: EdgeInsets.symmetric(vertical: 8.0),
+        color: const Color(0x4089ED91),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
           children: [
             Expanded(

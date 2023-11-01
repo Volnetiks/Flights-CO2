@@ -41,7 +41,7 @@ class AirportSearchDelegate extends SearchDelegate<Airport?> {
     final searched = airportSearch.searchString(query);
     
     if (searched.isEmpty) {
-      return AirportSearchPlaceHolder(title: 'No results...');
+      return const AirportSearchPlaceHolder(title: 'No results...');
     }
 
     return ListView.builder(

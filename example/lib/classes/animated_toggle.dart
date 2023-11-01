@@ -19,7 +19,7 @@ class AnimatedToggle extends StatefulWidget {
   });
 
   @override
-  _AnimatedToggleState createState() => _AnimatedToggleState();
+  State<AnimatedToggle> createState() => _AnimatedToggleState();
 }
 
 class _AnimatedToggleState extends State<AnimatedToggle> {

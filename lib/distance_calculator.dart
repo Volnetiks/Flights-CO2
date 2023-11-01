@@ -35,7 +35,6 @@ class DistanceCalculator {
     angle1 = degrees(angle1);
 
     double distance = angle1 * 60;
-    print(distance);
 
     double distanceMeters = distance * 1.852;
     

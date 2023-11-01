@@ -2,14 +2,6 @@ import 'flight_class.dart';
 import 'flight_parameters.dart';
 
 class CO2Calculator {
-  static double _normalize(
-      {required double value, required double lowerBound, required double upperBound}) {
-    return (value - lowerBound) / (upperBound - lowerBound);
-  }
-
-  static double _interpolate({double? a, double? b, double? value}) {
-    return b! * value! + a! * (1 - value);
-  }
 
   static FlightParameters flightParameters({required double distanceKm}) {
     double lowerBound = 550.0;

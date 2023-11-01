@@ -64,7 +64,6 @@ class Airport{
           location: location,
         );
       } catch (e) {
-        print(e);
         return Airport(
           name: "",
           city: "",

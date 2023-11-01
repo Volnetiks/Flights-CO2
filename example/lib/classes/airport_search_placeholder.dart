@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AirportSearchPlaceHolder extends StatelessWidget {
-  AirportSearchPlaceHolder({required this.title});
+  const AirportSearchPlaceHolder({super.key, required this.title});
 
   final String title;
 
