@@ -28,7 +28,7 @@ class _ToggleButtonState extends State<ToggleButton> {
       selectedColor: Colors.black,
       fillColor: HexColor.fromHex("#f2e98e"),
       color: Colors.black,
-      
+      disabledColor: Colors.white,
       constraints: const BoxConstraints(
         minHeight: 40,
         minWidth: 80,

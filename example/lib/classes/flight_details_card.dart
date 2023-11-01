@@ -3,11 +3,14 @@ import 'package:flights_co2/airport_search.dart';
 import 'package:flights_co2/flight_class.dart';
 import 'package:flights_co2_example/classes/airport_search_delegate.dart';
 import 'package:flights_co2_example/classes/airport_widget.dart';
+import 'package:flights_co2_example/classes/animated_toggle.dart';
 import 'package:flights_co2_example/classes/flight_details.dart';
 import 'package:flights_co2_example/classes/flight_details_block.dart';
 import 'package:flights_co2_example/classes/flight_type.dart';
 import 'package:flights_co2_example/classes/toggle_button.dart';
 import 'package:flutter/material.dart';
+
+import '../utils/hex_color.dart';
 
 class FlightDetailsCard extends StatefulWidget {
   const FlightDetailsCard({super.key, required this.flightDetails, required this.flightDetailsBlock, required this.airportSearch});
@@ -86,10 +89,11 @@ class FlightDetailsCardState extends State<FlightDetailsCard> {
                   onPressed: () => selectArrival(context),
                 ),
                 const SizedBox(height: 16,),
-                ToggleButton(
-                  selectedItems: selectedFlightType,
-                  widgets: flightTypes,
-                  onChange: (int index) {
+                AnimatedToggle(
+                  values: const ["One Way", "Round Trip"],
+                  index: 1,
+                  buttonColor: HexColor.fromHex("#f2e98e"),
+                  onToggleCallback: (index) {
                     setState(() {
                       widget.flightDetailsBlock.updateWith(flightType: index == 0 ? FlightType.oneWay : FlightType.twoWays);
                       messages[2] = index == 0 ? "One Way" : "Round Trip";
@@ -97,10 +101,10 @@ class FlightDetailsCardState extends State<FlightDetailsCard> {
                   }
                 ),
                 const SizedBox(height: 16),
-                ToggleButton(
-                  selectedItems: selectFlightClass,
-                  widgets: flightClasses,
-                  onChange: (int index) {
+                AnimatedToggle(
+                  values: const ["Economy", "Premium"],
+                  buttonColor: HexColor.fromHex("#f2e98e"),
+                  onToggleCallback: (index) {
                     setState(() {
                       widget.flightDetailsBlock.updateWith(flightClass: index == 0 ? FlightClass.economy : FlightClass.premium);
                     });
