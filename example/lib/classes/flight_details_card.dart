@@ -6,7 +6,7 @@ import 'package:flights_co2_example/classes/airport_widget.dart';
 import 'package:flights_co2_example/classes/flight_details.dart';
 import 'package:flights_co2_example/classes/flight_details_block.dart';
 import 'package:flights_co2_example/classes/flight_type.dart';
-import 'package:flights_co2_example/classes/segmented_control.dart';
+import 'package:flights_co2_example/classes/toggle_button.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/hex_color.dart';
@@ -23,37 +23,28 @@ class FlightDetailsCard extends StatefulWidget {
 }
 
 class FlightDetailsCardState extends State<FlightDetailsCard> {
-  
-  final Map<FlightClass, Widget> flightClassChildren = const <FlightClass, Widget>{
-    FlightClass.economy: Text('Economy'),
-    FlightClass.premium: Text('Premium')
-  };
 
-  // final Map<FlightType, Widget> flightTypeChildren = const <FlightType, Widget>{
-  //   FlightType.oneWay: Text('One Way'),
-  //   FlightType.twoWays: Text('Return'),
-  // };
+  List<Widget> flightClasses = [
+    const Text("Economy"),
+    const Text("Premium")
+  ];
 
   List<Widget> flightTypes = [
     const Text("One Way"),
     const Text("Round trip")
   ];
 
+  List<bool> selectFlightClass = [true, false];
+
   List<bool> selectedFlightType = [false, true];
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return ClipRRect(
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-              colors: [
-                HexColor.fromHex("#efeea0"),
-                HexColor.fromHex("#06f2a8")
-            ]
-          )
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          color: Colors.white.withOpacity(0.4)
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -73,41 +64,24 @@ class FlightDetailsCardState extends State<FlightDetailsCard> {
               onPressed: () => selectArrival(context),
             ),
             const SizedBox(height: 16,),
-            // SegmentedControl<FlightType>(
-            //   header: const Text("Type", style: TextStyle(fontSize: 13.0, color: Colors.black54)),
-            //   value: flightDetails.flightType != null ? flightDetails.flightType! : FlightType.twoWays,
-            //   children: flightTypeChildren,
-            //   onValueChanged: (flightType) => flightDetailsBlock.updateWith(flightType: flightType)
-            // ),
-            ToggleButtons(
-              direction: Axis.horizontal,
-              onPressed: (int index) {
-                for (int i = 0; i < selectedFlightType.length; i++) {
-                  selectedFlightType[i] = i == index;
-                }
-
+            ToggleButton(
+              selectedItems: selectedFlightType,
+              widgets: flightTypes,
+              onChange: (int index) {
                 setState(() {
                   widget.flightDetailsBlock.updateWith(flightType: index == 0 ? FlightType.oneWay : FlightType.twoWays);
                 });
-              },
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-                selectedBorderColor: Colors.red[700],
-                selectedColor: Colors.white,
-                fillColor: Colors.red[200],
-                color: Colors.red[400],
-                constraints: const BoxConstraints(
-                  minHeight: 40.0,
-                  minWidth: 80.0,
-                ),
-              isSelected: selectedFlightType,
-              children: flightTypes
+              }
             ),
             const SizedBox(height: 16),
-            SegmentedControl<FlightClass>(
-              header: const Text("Class", style: TextStyle(fontSize: 13.0, color: Colors.black54)),
-              value: widget.flightDetails.flightClass != null ? widget.flightDetails.flightClass! : FlightClass.economy,
-              children: flightClassChildren,
-              onValueChanged: (flightClass) => widget.flightDetailsBlock.updateWith(flightClass: flightClass)
+            ToggleButton(
+              selectedItems: selectFlightClass,
+              widgets: flightClasses,
+              onChange: (int index) {
+                setState(() {
+                  widget.flightDetailsBlock.updateWith(flightClass: index == 0 ? FlightClass.economy : FlightClass.premium);
+                });
+              },
             ),
             const SizedBox(height: 16)
           ]
