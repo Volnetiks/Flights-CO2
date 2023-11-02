@@ -24,9 +24,6 @@ class FlightsCO2 extends StatelessWidget {
     return MaterialApp(
       title: 'Flight CO2 calculator',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: Provider<FlightDetailsBlock>(
         create: (context) => FlightDetailsBlock(),
         dispose: (context, block) => block.dispose(),

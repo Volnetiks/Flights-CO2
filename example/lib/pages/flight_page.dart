@@ -1,8 +1,7 @@
 import 'package:flights_co2/airport_search.dart';
 import 'package:flights_co2_example/classes/flight.dart';
-import 'package:flights_co2_example/classes/flight_calculation_card.dart';
 import 'package:flights_co2_example/classes/flight_details_block.dart';
-import 'package:flights_co2_example/classes/flight_details_card.dart';
+import 'package:flights_co2_example/classes/flight_details_card_expandable.dart';
 import 'package:flights_co2_example/utils/hex_color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +16,10 @@ class FlightPage extends StatelessWidget {
     final flightDetailsBlock = Provider.of<FlightDetailsBlock>(context);
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
       body: StreamBuilder<Flight>(
         stream: flightDetailsBlock.flightStream,
         initialData: Flight.initialData(),
@@ -33,19 +35,16 @@ class FlightPage extends StatelessWidget {
                 ]
               )
             ),
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20.0),
             child: SafeArea(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: FlightDetailsCard(
+                  FlightDetailsCardExpandable(
                       flightDetails: snapshot.data!.details,
                       flightDetailsBlock: flightDetailsBlock,
-                      airportSearch: airportSearch
-                    ),
-                  ),
-                  FlightCalculationCard(flightData: snapshot.data!.data),
+                      airportSearch: airportSearch,
+                      flightData: snapshot.data!.data,
+                  )
                 ],
               )
             )

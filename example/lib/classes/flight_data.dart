@@ -17,11 +17,10 @@ class FlightData {
     return distanceKm != null ? '${distanceKm!.roundToDouble().toInt()} km' : '';
   }
 
-  String get co2eFormmated {
+  String get co2eFormatted {
     if(co2e != null) {
-      double tonnes = co2e!;
       final formatter = NumberFormat.decimalPattern();
-      return '${formatter.format(tonnes)} t';
+      return '${formatter.format(co2e)}kg';
     }
     return "";
   }

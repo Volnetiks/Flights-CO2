@@ -4,39 +4,26 @@ import 'package:flights_co2/flight_class.dart';
 import 'package:flights_co2_example/classes/airport_search_delegate.dart';
 import 'package:flights_co2_example/classes/airport_widget.dart';
 import 'package:flights_co2_example/classes/animated_toggle.dart';
+import 'package:flights_co2_example/classes/flight_data.dart';
 import 'package:flights_co2_example/classes/flight_details.dart';
 import 'package:flights_co2_example/classes/flight_details_block.dart';
 import 'package:flights_co2_example/classes/flight_type.dart';
+import 'package:flights_co2_example/utils/hex_color.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/hex_color.dart';
-
-class FlightDetailsCard extends StatefulWidget {
-  const FlightDetailsCard({super.key, required this.flightDetails, required this.flightDetailsBlock, required this.airportSearch});
+class FlightDetailsCardExpandable extends StatefulWidget {
+  const FlightDetailsCardExpandable({super.key, required this.flightDetails, required this.flightDetailsBlock, required this.airportSearch, required this.flightData});
 
   final FlightDetails flightDetails;
   final FlightDetailsBlock flightDetailsBlock;
   final AirportSearch airportSearch;
+  final FlightData flightData;
 
   @override
-  State<FlightDetailsCard> createState() => FlightDetailsCardState();
+  State<FlightDetailsCardExpandable> createState() => _FlightDetailsCardExpandableState();
 }
 
-class FlightDetailsCardState extends State<FlightDetailsCard> {
-
-  List<Widget> flightClasses = [
-    const Text("Economy"),
-    const Text("Premium")
-  ];
-
-  List<Widget> flightTypes = [
-    const Text("One Way"),
-    const Text("Round trip")
-  ];
-
-  List<bool> selectFlightClass = [true, false];
-
-  List<bool> selectedFlightType = [false, true];
+class _FlightDetailsCardExpandableState extends State<FlightDetailsCardExpandable> {
 
   List<String> messages = [
     "Departure Airport",
@@ -46,26 +33,24 @@ class FlightDetailsCardState extends State<FlightDetailsCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 25,),
-        ClipRRect(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              color: Colors.white.withOpacity(0.3)
-            ),
-            width: double.infinity,
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0),
-              child: Text('${messages[0]} - ${messages[1]} (${messages[2]})', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
-            ),
-          )
+    return ExpansionTile(
+      title: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          color: Colors.white.withOpacity(0.3)
         ),
-        const SizedBox(height: 16,),
-        ClipRRect(
-          child: Container(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: Text('${messages[0]} - ${messages[1]} (${messages[2]})', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14), textAlign: TextAlign.center,),
+        )
+      ),
+      tilePadding: const EdgeInsets.all(0),
+      textColor: Colors.black,
+      iconColor: Colors.grey[700],
+      collapsedIconColor: Colors.grey[700],
+      shape: const Border(),
+      children: [
+        Container(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               color: Colors.white.withOpacity(0.3)
@@ -109,13 +94,37 @@ class FlightDetailsCardState extends State<FlightDetailsCard> {
                     });
                   },
                 ),
-                const SizedBox(height: 16)
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(25)),
+                        border: Border.all(color: Colors.black, width: 1.5)
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('${widget.flightData.co2eFormatted} CO2'),
+                      )
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(25)),
+                        border: Border.all(color: Colors.black, width: 1.5)
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(widget.flightData.distanceFormatted),
+                      )
+                    )
+                  ],
+                ),
+                const SizedBox(height: 16,)
               ]
             )
-          )
-        ),
-        const SizedBox(height: 25,)
-      ],
+          ),
+      ]
     );
   }
 
