@@ -1,3 +1,4 @@
+import 'package:flights_co2/aircraft.dart';
 import 'package:flights_co2/airport.dart';
 import 'package:flights_co2/co2_calculator.dart';
 import 'package:flights_co2/distance_calculator.dart';
@@ -26,7 +27,7 @@ class FlightData {
   }
 
   factory FlightData.fromDetails(FlightDetails flightDetails) {
-    if(flightDetails.arrival == null || flightDetails.departure == null) {
+    if(flightDetails.arrival == null || flightDetails.departure == null || flightDetails.aircraft == null) {
       return FlightData(distanceKm: 0, co2e: 0);
     }
 
@@ -34,10 +35,11 @@ class FlightData {
     double co2e;
     Airport departure = flightDetails.departure!;
     Airport arrival = flightDetails.arrival!;
+    Aircraft aircraft = flightDetails.aircraft!;
     double multiplier = flightDetails.flightType == FlightType.oneWay ? 1.0 : 2.0;
     distanceKm = DistanceCalculator.distanceInKmBetween(departure.location, arrival.location);
     distanceKm = CO2Calculator.correctedDistanceKm(distanceKm);
-    co2e = CO2Calculator.calculateCO2e(distanceKm, flightDetails.flightClass == null ? FlightClass.economy : flightDetails.flightClass!) * multiplier;
+    co2e = CO2Calculator.calculateCO2e(distanceKm, flightDetails.flightClass == null ? FlightClass.economy : flightDetails.flightClass!, aircraft) * multiplier;
 
     return FlightData(distanceKm: distanceKm, co2e: co2e);
   }

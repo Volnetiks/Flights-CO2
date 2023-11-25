@@ -1,3 +1,5 @@
+import 'package:flights_co2/aircraft.dart';
+
 import 'flight_class.dart';
 import 'flight_parameters.dart';
 
@@ -15,13 +17,11 @@ class CO2Calculator {
     }
   }
 
-  static double calculateCO2e(double distanceKm, FlightClass flightClass) {
+  static double calculateCO2e(double distanceKm, FlightClass flightClass, Aircraft aircraft) {
     FlightParameters fp = flightParameters(distanceKm: distanceKm);
     double distanceTotal = distanceKm + fp.detourConstant!;
     double classWeight = distanceTotal > 3000 && flightClass == FlightClass.premium ? 2.0 : 1.0;
-    double fuelKgPerKm = 3.5; // TO CHANGE WITH REAL VALUES
-    double seatNumber = 150; // REAL VALUES
-    return 3.16 * distanceTotal * fuelKgPerKm / 1000 * 0.85 / (seatNumber * fp.passengerLoadFactor!) * classWeight * 1000;
+    return 3.16 * distanceTotal / 100 * aircraft.fuelPerSeat * classWeight;
   }
 
   static double correctedDistanceKm(double distanceKm) {
