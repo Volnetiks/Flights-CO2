@@ -1,13 +1,13 @@
-import 'package:flights_co2/airport.dart';
-import 'package:flights_co2/airport_search.dart';
-import 'package:flights_co2_example/classes/airport_search_placeholder.dart';
-import 'package:flights_co2_example/classes/airport_search_result_tile.dart';
+import 'package:flights_co2/aircraft.dart';
+import 'package:flights_co2/aircraft_search.dart';
+import 'package:flights_co2_example/classes/aircraft/aircraft_search_result_tile.dart';
+import 'package:flights_co2_example/classes/search_placeholder.dart';
 import 'package:flutter/material.dart';
 
-class AirportSearchDelegate extends SearchDelegate<Airport?> {
-  AirportSearchDelegate({required this.airportSearch});
+class AircraftSearchDelegate extends SearchDelegate<Aircraft?> {
+  AircraftSearchDelegate({required this.aircraftSearch});
 
-  final AirportSearch airportSearch;
+  final AircraftSearch aircraftSearch;
 
   @override
   Widget buildLeading(BuildContext context) {
@@ -38,17 +38,17 @@ class AirportSearchDelegate extends SearchDelegate<Airport?> {
       return Container();
     }
 
-    final searched = airportSearch.searchString(query);
+    final searched = aircraftSearch.searchString(query);
     
     if (searched.isEmpty) {
-      return const AirportSearchPlaceHolder(title: 'No results...');
+      return const SearchPlaceHolder(title: 'No results...');
     }
 
     return ListView.builder(
       itemCount: searched.length,
       itemBuilder: (context, index) {
-        return AirportSearchResultTile(
-          airport: searched[index],
+        return AircraftSearchResultTile(
+          aircraft: searched[index],
           searchDelegate: this
         );
       },

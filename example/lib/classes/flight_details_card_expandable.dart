@@ -1,8 +1,12 @@
+import 'package:flights_co2/aircraft.dart';
+import 'package:flights_co2/aircraft_search.dart';
 import 'package:flights_co2/airport.dart';
 import 'package:flights_co2/airport_search.dart';
 import 'package:flights_co2/flight_class.dart';
-import 'package:flights_co2_example/classes/airport_search_delegate.dart';
-import 'package:flights_co2_example/classes/airport_widget.dart';
+import 'package:flights_co2_example/classes/aircraft/aircraft_search_delegate.dart';
+import 'package:flights_co2_example/classes/aircraft/aircraft_widget.dart';
+import 'package:flights_co2_example/classes/airport/airport_search_delegate.dart';
+import 'package:flights_co2_example/classes/airport/airport_widget.dart';
 import 'package:flights_co2_example/classes/animated_toggle.dart';
 import 'package:flights_co2_example/classes/flight_data.dart';
 import 'package:flights_co2_example/classes/flight_details.dart';
@@ -12,11 +16,12 @@ import 'package:flights_co2_example/utils/hex_color.dart';
 import 'package:flutter/material.dart';
 
 class FlightDetailsCardExpandable extends StatefulWidget {
-  const FlightDetailsCardExpandable({super.key, required this.flightDetails, required this.flightDetailsBlock, required this.airportSearch, required this.flightData});
+  const FlightDetailsCardExpandable({super.key, required this.flightDetails, required this.flightDetailsBlock, required this.airportSearch, required this.flightData, required this.aircraftSearch});
 
   final FlightDetails flightDetails;
   final FlightDetailsBlock flightDetailsBlock;
   final AirportSearch airportSearch;
+  final AircraftSearch aircraftSearch;
   final FlightData flightData;
 
   @override
@@ -72,12 +77,12 @@ class _FlightDetailsCardExpandableState extends State<FlightDetailsCardExpandabl
                   airport: widget.flightDetails.arrival,
                   onPressed: () => selectArrival(context),
                 ),
-                // AirportWidget(
-                //   iconData: Icons.airplanemode_on,
-                //   title: const Text("Aircraft Model", style: TextStyle(fontSize: 13.0, color: Colors.black54)),
-                //   airport
-                // )
-                // TODO: ADD AIRCRAFT WIDGET
+                AircraftWidget(
+                  iconData: Icons.airplanemode_on,
+                  title: const Text("Aircraft Model", style: TextStyle(fontSize: 13.0, color: Colors.black54)),
+                  aircraft: widget.flightDetails.aircraft,
+                  onPressed: () => selectAircraft(context),
+                ),
                 const SizedBox(height: 16,),
                 AnimatedToggle(
                   values: const ["One Way", "Round Trip"],
@@ -154,10 +159,25 @@ class _FlightDetailsCardExpandableState extends State<FlightDetailsCardExpandabl
     }
   }
 
+  void selectAircraft(BuildContext context) async {
+    final aircraft = await showAircraftSearch(context);
+    if(aircraft != null) {
+      widget.flightDetailsBlock.updateWith(aircraft: aircraft);
+      setState(() {});
+    }
+  }
+
   Future<Airport?> showAirportSearch(BuildContext context) async {
     return await showSearch<Airport?>(
       context: context,
       delegate: AirportSearchDelegate(airportSearch: widget.airportSearch)
+    );
+  }
+
+  Future<Aircraft?> showAircraftSearch(BuildContext context) async {
+    return await showSearch<Aircraft?>(
+      context: context,
+      delegate: AircraftSearchDelegate(aircraftSearch: widget.aircraftSearch)
     );
   }
 }

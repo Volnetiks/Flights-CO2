@@ -13,6 +13,7 @@ class Aircraft {
   factory Aircraft.fromLine(String line) {
     final components = line.split(", ");
     String name = unescapeString(components[0]);
+    print(components);
     String firstFlight = unescapeString(components[1]);
     int seatNumber = int.parse(unescapeString(components[2]));
     double fuelBurnKm = double.parse(unescapeString(components[3]));

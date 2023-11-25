@@ -1,3 +1,4 @@
+import 'package:flights_co2/aircraft_search.dart';
 import 'package:flights_co2/airport_search.dart';
 import 'package:flights_co2_example/classes/flight.dart';
 import 'package:flights_co2_example/classes/flight_details_block.dart';
@@ -7,9 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class FlightPage extends StatelessWidget {
-  const FlightPage({super.key, required this.airportSearch});
+  const FlightPage({super.key, required this.airportSearch, required this.aircraftSearch});
 
   final AirportSearch airportSearch;
+  final AircraftSearch aircraftSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class FlightPage extends StatelessWidget {
                       flightDetailsBlock: flightDetailsBlock,
                       airportSearch: airportSearch,
                       flightData: snapshot.data!.data,
+                      aircraftSearch: aircraftSearch,
                   )
                 ],
               )
