@@ -72,6 +72,12 @@ class _FlightDetailsCardExpandableState extends State<FlightDetailsCardExpandabl
                   airport: widget.flightDetails.arrival,
                   onPressed: () => selectArrival(context),
                 ),
+                // AirportWidget(
+                //   iconData: Icons.airplanemode_on,
+                //   title: const Text("Aircraft Model", style: TextStyle(fontSize: 13.0, color: Colors.black54)),
+                //   airport
+                // )
+                // TODO: ADD AIRCRAFT WIDGET
                 const SizedBox(height: 16,),
                 AnimatedToggle(
                   values: const ["One Way", "Round Trip"],
